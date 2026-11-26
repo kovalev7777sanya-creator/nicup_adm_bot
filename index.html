@@ -362,7 +362,7 @@
 
       const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
       const scopeId = tgUser && tgUser.id ? String(tgUser.id) : "browser";
-      const AUTH_STORAGE_KEY = "tg_admin_auth_state_" + scopeId;
+      const AUTH_STORAGE_KEY = "tg_admin_auth_state_v2_" + scopeId;
 
       const root = document.getElementById("appRoot");
       let lockTimer = null;
