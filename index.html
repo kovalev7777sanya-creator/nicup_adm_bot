@@ -13,7 +13,7 @@
       --orb-gold: rgba(255, 206, 59, 0.16);
       --glass: rgba(255, 255, 255, 0.07);
       --glass-strong: rgba(255, 255, 255, 0.12);
-      --recessed: rgba(6, 5, 18, 0.54);
+      --recessed: rgba(6, 5, 18, 0.56);
       --border: rgba(255, 255, 255, 0.16);
       --gold-border: rgba(255, 210, 63, 0.48);
       --text: #ffffff;
@@ -28,7 +28,7 @@
 
     body {
       margin: 0;
-      padding: 14px 14px 40px;
+      padding: 14px 14px 42px;
       min-height: 100vh;
       font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
       color: var(--text);
@@ -45,10 +45,10 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
-    .title { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+    .title { margin: 0; font-size: 21px; font-weight: 800; letter-spacing: -0.02em; }
     .sub { margin: 2px 0 0; font-size: 12px; color: var(--sec); }
 
     .badge {
@@ -62,6 +62,38 @@
       flex-shrink: 0;
     }
 
+    /* Навигация по вкладкам */
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      background: var(--recessed);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 5px;
+      margin-bottom: 14px;
+    }
+
+    .tab-btn {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: var(--sec);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 10px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(150deg, #ffe270, var(--gold));
+      color: var(--gold-ink);
+      font-weight: 800;
+    }
+
     .card {
       background: var(--glass);
       backdrop-filter: blur(22px) saturate(180%);
@@ -70,7 +102,7 @@
       border-radius: 20px;
       padding: 14px;
       margin-bottom: 14px;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 10px 24px rgba(0, 0, 0, 0.32);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 10px 24px rgba(0, 0, 0, 0.32);
     }
 
     .section-title {
@@ -82,11 +114,105 @@
       letter-spacing: 0.04em;
     }
 
+    /* Статистика KPI */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .kpi-box {
+      background: var(--recessed);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 11px 12px;
+    }
+
+    .kpi-box.highlight {
+      border-color: var(--gold-border);
+      background: rgba(255, 210, 63, 0.08);
+    }
+
+    .kpi-label {
+      font-size: 11px;
+      color: var(--sec);
+      font-weight: 600;
+    }
+
+    .kpi-val {
+      font-size: 22px;
+      font-weight: 800;
+      margin-top: 3px;
+      color: var(--text);
+    }
+
+    .kpi-sub {
+      font-size: 11px;
+      color: var(--green);
+      margin-top: 2px;
+      font-weight: 600;
+    }
+
+    .period-pills {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--recessed);
+      color: var(--sec);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 8px 4px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .pill.active {
+      border-color: var(--gold-border);
+      background: rgba(255, 210, 63, 0.16);
+      color: var(--gold);
+    }
+
+    /* Таблица роста */
+    .growth-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .growth-table th {
+      text-align: left;
+      color: var(--sec);
+      font-weight: 700;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .growth-table td {
+      padding: 8px 6px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .growth-table tr:last-child td { border-bottom: none; }
+
+    .growth-plus {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    /* Поля формы */
     .field { margin-top: 10px; }
     .field:first-child { margin-top: 0; }
     .field label { display: block; font-size: 12px; color: var(--sec); margin-bottom: 5px; font-weight: 600; }
 
-    .input, .select, .textarea {
+    .input, .select {
       width: 100%;
       border: 1px solid var(--border);
       background: var(--recessed);
@@ -98,53 +224,67 @@
       outline: none;
     }
 
-    .input:focus, .select:focus, .textarea:focus {
-      border-color: var(--gold);
-    }
-
-    .textarea {
-      min-height: 135px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 12px;
-      line-height: 1.45;
-      resize: vertical;
-    }
+    .input:focus, .select:focus { border-color: var(--gold); }
 
     .switch-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 10px 12px;
+      padding: 11px 12px;
       border-radius: 14px;
       background: var(--glass-strong);
       border: 1px solid rgba(255, 255, 255, 0.14);
     }
 
-    .quick-row {
-      display: flex;
+    .media-type-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-      margin-top: 10px;
-      flex-wrap: wrap;
+      margin-top: 6px;
     }
 
-    .chip {
+    .type-btn {
       appearance: none;
       border: 1px solid var(--border);
       background: var(--recessed);
-      color: var(--text);
+      color: var(--sec);
       font-family: inherit;
       font-size: 12px;
-      font-weight: 600;
-      padding: 7px 10px;
-      border-radius: 999px;
+      font-weight: 700;
+      padding: 10px 6px;
+      border-radius: 12px;
       cursor: pointer;
     }
 
-    .btn-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 12px;
+    .type-btn.active {
+      border-color: var(--gold-border);
+      background: rgba(255, 210, 63, 0.16);
+      color: var(--gold);
+    }
+
+    .upload-box {
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px dashed var(--gold-border);
+      border-radius: 14px;
+      background: rgba(255, 210, 63, 0.05);
+      text-align: center;
+    }
+
+    .file-info {
+      font-size: 12px;
+      color: var(--sec);
+      margin-top: 6px;
+      word-break: break-all;
+    }
+
+    .preview-media {
+      margin-top: 10px;
+      max-width: 100%;
+      max-height: 150px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      display: none;
     }
 
     .btn-gold {
@@ -161,12 +301,10 @@
       cursor: pointer;
     }
 
-    .btn-gold:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
+    .btn-gold:disabled { opacity: 0.45; cursor: not-allowed; }
 
     .btn-glass {
+      width: 100%;
       appearance: none;
       border: 1px solid var(--gold-border);
       background: var(--glass-strong);
@@ -174,18 +312,12 @@
       font-family: inherit;
       font-size: 13px;
       font-weight: 700;
-      padding: 11px 12px;
-      border-radius: 14px;
+      padding: 10px 12px;
+      border-radius: 12px;
       cursor: pointer;
     }
 
-    .auth-status {
-      margin-top: 10px;
-      font-size: 13px;
-      font-weight: 600;
-      min-height: 18px;
-    }
-
+    .auth-status { margin-top: 10px; font-size: 13px; font-weight: 600; min-height: 18px; }
     .auth-error { color: var(--red); }
     .auth-info { color: var(--sec); }
 
@@ -196,6 +328,8 @@
       color: var(--green);
       margin: 8px 4px;
     }
+
+    .toast.err { color: var(--red); }
   </style>
 </head>
 <body>
@@ -203,14 +337,22 @@
 
   <script>
     (function () {
-      // 1. Впиши сюда свой пароль
-      const PANEL_PASSWORD = "13121488";
+      // === НАСТРОЙКИ ===
+      const PANEL_PASSWORD = "CHANGE_ME_PASSWORD";
 
-      // 2. Ссылка на ad.json в репозитории основного генератора
-      const TARGET_AD_JSON_URL = "https://ТВОЙ_ЛОГИН.github.io/РЕПОЗИТОРИЙ_ГЕНЕРАТОРА/ad.json";
+      // Данные репозитория ОСНОВНОГО генератора (куда загружаются фото/видео и ad.json)
+      const GITHUB_OWNER = "kovalev7777sanya-creator";
+      const TARGET_REPO = "ИМЯ_РЕПОЗИТОРИЯ_ГЕНЕРАТОРА";
+      const TARGET_BRANCH = "main";
+
+      // Ключи JSONBin.io для реальной статистики (должны совпадать с кодом в генераторе)
+      const JSONBIN_BIN_ID = "ВСТАВЬ_BIN_ID";
+      const JSONBIN_API_KEY = "ВСТАВЬ_X_MASTER_KEY";
+      // =================
 
       const MAX_ATTEMPTS = 3;
       const LOCK_DURATION_MS = 60 * 60 * 1000;
+      const GH_TOKEN_STORAGE = "nicup_gh_pat_token";
 
       const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
       if (tg) {
@@ -220,14 +362,14 @@
 
       const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
       const scopeId = tgUser && tgUser.id ? String(tgUser.id) : "browser";
-      const STORAGE_KEY = "tg_admin_auth_state_" + scopeId;
+      const AUTH_STORAGE_KEY = "tg_admin_auth_state_" + scopeId;
 
       const root = document.getElementById("appRoot");
       let lockTimer = null;
 
       function readAuthState() {
         try {
-          const raw = localStorage.getItem(STORAGE_KEY);
+          const raw = localStorage.getItem(AUTH_STORAGE_KEY);
           if (!raw) return { failedAttempts: 0, lockedUntil: 0 };
           const parsed = JSON.parse(raw);
           return {
@@ -240,9 +382,7 @@
       }
 
       function writeAuthState(state) {
-        try {
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-        } catch (_) {}
+        try { localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(state)); } catch (_) {}
       }
 
       function formatRemaining(ms) {
@@ -253,10 +393,7 @@
       }
 
       function renderLoginScreen(messageText, isError) {
-        if (lockTimer) {
-          clearInterval(lockTimer);
-          lockTimer = null;
-        }
+        if (lockTimer) { clearInterval(lockTimer); lockTimer = null; }
 
         root.innerHTML = `
           <div class="header">
@@ -266,7 +403,6 @@
             </div>
             <div class="badge">LOCKED</div>
           </div>
-
           <div class="card">
             <form id="loginForm">
               <div class="field">
@@ -289,7 +425,6 @@
         function syncLockState() {
           const state = readAuthState();
           const now = Date.now();
-
           if (state.lockedUntil > now) {
             input.disabled = true;
             btn.disabled = true;
@@ -297,14 +432,11 @@
             statusEl.textContent = "Превышен лимит попыток. Вход заблокирован на " + formatRemaining(state.lockedUntil - now);
             return true;
           }
-
           if (state.lockedUntil > 0 && state.lockedUntil <= now) {
             writeAuthState({ failedAttempts: 0, lockedUntil: 0 });
           }
-
           input.disabled = false;
           btn.disabled = false;
-
           if (messageText) {
             statusEl.className = "auth-status " + (isError ? "auth-error" : "auth-info");
             statusEl.textContent = messageText;
@@ -316,8 +448,7 @@
           return false;
         }
 
-        const initiallyLocked = syncLockState();
-        if (initiallyLocked) {
+        if (syncLockState()) {
           lockTimer = setInterval(function () {
             if (!syncLockState()) {
               clearInterval(lockTimer);
@@ -334,15 +465,11 @@
           e.preventDefault();
           const current = readAuthState();
           const now = Date.now();
-
-          if (current.lockedUntil > now) {
-            syncLockState();
-            return;
-          }
+          if (current.lockedUntil > now) { syncLockState(); return; }
 
           if (input.value === PANEL_PASSWORD) {
             writeAuthState({ failedAttempts: 0, lockedUntil: 0 });
-            renderAdminPanel();
+            renderAdminApp();
             return;
           }
 
@@ -368,175 +495,455 @@
         });
       }
 
-      function renderAdminPanel() {
-        if (lockTimer) {
-          clearInterval(lockTimer);
-          lockTimer = null;
+      // Кодирование строк/файлов в Base64 для GitHub API
+      function utf8ToBase64(str) {
+        return btoa(unescape(encodeURIComponent(str)));
+      }
+
+      function arrayBufferToBase64(buffer) {
+        let binary = "";
+        const bytes = new Uint8Array(buffer);
+        const chunk = 0x8000;
+        for (let i = 0; i < bytes.length; i += chunk) {
+          binary += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
         }
+        return btoa(binary);
+      }
+
+      async function uploadFileToGitHub(token, filePath, base64Content, commitMsg) {
+        const apiUrl = "https://api.github.com/repos/" + GITHUB_OWNER + "/" + TARGET_REPO + "/contents/" + filePath;
+        let sha = null;
+
+        const getRes = await fetch(apiUrl + "?ref=" + TARGET_BRANCH, {
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Accept": "application/vnd.github+json"
+          }
+        });
+        if (getRes.ok) {
+          const existing = await getRes.json();
+          sha = existing.sha;
+        }
+
+        const body = {
+          message: commitMsg,
+          content: base64Content,
+          branch: TARGET_BRANCH
+        };
+        if (sha) body.sha = sha;
+
+        const putRes = await fetch(apiUrl, {
+          method: "PUT",
+          headers: {
+            "Authorization": "Bearer " + token,
+            "Accept": "application/vnd.github+json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(body)
+        });
+
+        if (!putRes.ok) {
+          const errData = await putRes.json().catch(function () { return {}; });
+          throw new Error(errData.message || ("Ошибка GitHub HTTP " + putRes.status));
+        }
+        return await putRes.json();
+      }
+
+      function renderAdminApp() {
+        if (lockTimer) { clearInterval(lockTimer); lockTimer = null; }
 
         root.innerHTML = `
           <div class="header">
             <div>
-              <h1 class="title">Админ Mini App</h1>
-              <p class="sub">Конструктор ad.json для генератора ников</p>
+              <h1 class="title">Админ панель</h1>
+              <p class="sub">Аналитика и управление рекламой</p>
             </div>
-            <div class="badge" id="syncBadge">OFFLINE</div>
+            <div class="badge" id="statusBadge">ONLINE</div>
           </div>
 
-          <div class="card">
-            <div class="switch-row">
-              <span style="font-size:13px;font-weight:700;">Показывать баннер в генераторе</span>
-              <input type="checkbox" id="adEnabled" checked />
+          <div class="tabs">
+            <button type="button" class="tab-btn active" id="tabStatsBtn">Статистика</button>
+            <button type="button" class="tab-btn" id="tabAdBtn">Реклама</button>
+          </div>
+
+          <!-- ВКЛАДКА 1: СТАТИСТИКА -->
+          <div id="viewStats">
+            <div class="kpi-grid">
+              <div class="kpi-box" id="cardDay">
+                <div class="kpi-label">За день (сегодня)</div>
+                <div class="kpi-val" id="valDay">—</div>
+                <div class="kpi-sub" id="newDay">+0 новых</div>
+              </div>
+              <div class="kpi-box" id="cardWeek">
+                <div class="kpi-label">За неделю (7 дн.)</div>
+                <div class="kpi-val" id="valWeek">—</div>
+                <div class="kpi-sub" id="newWeek">+0 новых</div>
+              </div>
+              <div class="kpi-box" id="cardMonth">
+                <div class="kpi-label">За месяц (30 дн.)</div>
+                <div class="kpi-val" id="valMonth">—</div>
+                <div class="kpi-sub" id="newMonth">+0 новых</div>
+              </div>
+              <div class="kpi-box highlight" id="cardAll">
+                <div class="kpi-label">За всё время</div>
+                <div class="kpi-val" id="valAll">—</div>
+                <div class="kpi-sub">уникальных</div>
+              </div>
             </div>
 
-            <div class="quick-row">
-              <button type="button" class="chip" id="presetLogo">Логотип ./assets/logo.png</button>
-              <button type="button" class="chip" id="presetVideo">Видео ./assets/promo.mp4</button>
-              <button type="button" class="chip" id="presetText">Только текст</button>
+            <div class="section-title">Период таблицы роста</div>
+            <div class="period-pills">
+              <button type="button" class="pill" data-days="1">День</button>
+              <button type="button" class="pill active" data-days="7">Неделя</button>
+              <button type="button" class="pill" data-days="30">Месяц</button>
+              <button type="button" class="pill" data-days="365">Всё время</button>
             </div>
 
-            <div class="field">
-              <label for="adTag">Метка</label>
-              <input type="text" id="adTag" class="input" value="Реклама" maxlength="24" />
-            </div>
-
-            <div class="field">
-              <label for="adTitle">Заголовок</label>
-              <input type="text" id="adTitle" class="input" value="Место под рекламу или твой канал" maxlength="100" />
-            </div>
-
-            <div class="field">
-              <label for="adDesc">Описание</label>
-              <input type="text" id="adDesc" class="input" value="Нажми, чтобы открыть предложение" maxlength="200" />
-            </div>
-
-            <div class="field">
-              <label for="adUrl">Ссылка (https://t.me/... или https://...)</label>
-              <input type="text" id="adUrl" class="input" value="https://t.me/telegram" />
-            </div>
-
-            <div class="field">
-              <label for="adMediaType">Тип медиа</label>
-              <select id="adMediaType" class="select">
-                <option value="none">Без медиа (только текст)</option>
-                <option value="image">Картинка / логотип</option>
-                <option value="video">Видео (MP4)</option>
-              </select>
-            </div>
-
-            <div class="field">
-              <label for="adMediaUrl">Путь к файлу или прямая ссылка</label>
-              <input type="text" id="adMediaUrl" class="input" placeholder="./assets/logo.png" />
-            </div>
-
-            <div class="btn-row">
-              <button type="button" class="btn-gold" id="copyJsonBtn">Копировать JSON</button>
-              <button type="button" class="btn-glass" id="downloadJsonBtn">Скачать ad.json</button>
+            <div class="card">
+              <table class="growth-table">
+                <thead>
+                  <tr>
+                    <th>Дата</th>
+                    <th>Активных</th>
+                    <th>Прирост</th>
+                    <th>Всего</th>
+                  </tr>
+                </thead>
+                <tbody id="growthTbody">
+                  <tr><td colspan="4" style="color:var(--sec);">Загрузка статистики...</td></tr>
+                </tbody>
+              </table>
             </div>
           </div>
 
-          <div class="toast" id="toast"></div>
+          <!-- ВКЛАДКА 2: РЕКЛАМА -->
+          <div id="viewAd" style="display:none;">
+            <div class="card">
+              <div class="switch-row">
+                <span style="font-size:13px;font-weight:700;">Показывать рекламный баннер</span>
+                <input type="checkbox" id="adEnabled" checked />
+              </div>
 
-          <div class="section-title">Готовый ad.json</div>
-          <div class="card">
-            <textarea id="jsonPreview" class="textarea" readonly></textarea>
+              <div class="field">
+                <label>Формат баннера</label>
+                <div class="media-type-grid">
+                  <button type="button" class="type-btn" data-type="image">Фото</button>
+                  <button type="button" class="type-btn" data-type="video">Видео</button>
+                  <button type="button" class="type-btn active" data-type="none">Только текст</button>
+                </div>
+              </div>
+
+              <div id="mediaPickerWrap" style="display:none;">
+                <div class="upload-box">
+                  <input type="file" id="mediaFileInput" style="display:none;" />
+                  <button type="button" class="btn-glass" id="openExplorerBtn">Выбрать файл из проводника</button>
+                  <div class="file-info" id="selectedFileName">Файл не выбран</div>
+                  <img id="imgPreview" class="preview-media" alt="Предпросмотр" />
+                  <video id="vidPreview" class="preview-media" muted loop playsinline></video>
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="adTag">Метка</label>
+                <input type="text" id="adTag" class="input" value="Реклама" maxlength="24" />
+              </div>
+
+              <div class="field">
+                <label for="adTitle">Заголовок</label>
+                <input type="text" id="adTitle" class="input" placeholder="Например: Лучший канал в Telegram" maxlength="100" />
+              </div>
+
+              <div class="field">
+                <label for="adDesc">Описание</label>
+                <input type="text" id="adDesc" class="input" placeholder="Краткое описание предложения" maxlength="200" />
+              </div>
+
+              <div class="field">
+                <label for="adUrl">Ссылка перехода</label>
+                <input type="text" id="adUrl" class="input" value="https://t.me/" />
+              </div>
+
+              <div class="field">
+                <label for="ghTokenInput">GitHub токен (для автозагрузки в репозиторий)</label>
+                <input type="password" id="ghTokenInput" class="input" placeholder="github_pat_..." />
+              </div>
+
+              <div style="margin-top: 14px;">
+                <button type="button" class="btn-gold" id="publishAdBtn">Опубликовать в генератор</button>
+              </div>
+              <div class="toast" id="adToast"></div>
+            </div>
           </div>
         `;
 
-        const fields = ["adEnabled", "adTag", "adTitle", "adDesc", "adUrl", "adMediaType", "adMediaUrl"];
+        // Переключение вкладок
+        const tabStatsBtn = document.getElementById("tabStatsBtn");
+        const tabAdBtn = document.getElementById("tabAdBtn");
+        const viewStats = document.getElementById("viewStats");
+        const viewAd = document.getElementById("viewAd");
 
-        function buildJsonString() {
-          const mediaType = document.getElementById("adMediaType").value;
-          const mediaUrl = document.getElementById("adMediaUrl").value.trim();
-          return JSON.stringify({
-            enabled: Boolean(document.getElementById("adEnabled").checked),
-            tag: document.getElementById("adTag").value.trim() || "Реклама",
-            title: document.getElementById("adTitle").value.trim(),
-            desc: document.getElementById("adDesc").value.trim(),
-            url: document.getElementById("adUrl").value.trim() || "https://t.me/telegram",
-            media_type: mediaType,
-            media_url: mediaType === "none" ? "" : mediaUrl
-          }, null, 2);
+        tabStatsBtn.addEventListener("click", function () {
+          tabStatsBtn.classList.add("active");
+          tabAdBtn.classList.remove("active");
+          viewStats.style.display = "block";
+          viewAd.style.display = "none";
+        });
+
+        tabAdBtn.addEventListener("click", function () {
+          tabAdBtn.classList.add("active");
+          tabStatsBtn.classList.remove("active");
+          viewAd.style.display = "block";
+          viewStats.style.display = "none";
+        });
+
+        // === ЛОГИКА СТАТИСТИКИ ===
+        let allUsersMap = {};
+        let currentPeriodDays = 7;
+
+        function getDateStr(daysAgo) {
+          const d = new Date();
+          d.setDate(d.getDate() - daysAgo);
+          return d.toISOString().slice(0, 10);
         }
 
-        function refreshPreview() {
-          document.getElementById("jsonPreview").value = buildJsonString();
-        }
+        function computeAndRenderStats() {
+          const uids = Object.keys(allUsersMap);
+          const todayStr = getDateStr(0);
+          const weekCutoff = getDateStr(6);
+          const monthCutoff = getDateStr(29);
 
-        function showToast(msg) {
-          const el = document.getElementById("toast");
-          el.textContent = msg;
-          clearTimeout(showToast._t);
-          showToast._t = setTimeout(function () { el.textContent = ""; }, 2200);
-        }
+          let dayActive = 0, dayNew = 0;
+          let weekActive = 0, weekNew = 0;
+          let monthActive = 0, monthNew = 0;
 
-        fields.forEach(function (id) {
-          document.getElementById(id).addEventListener("input", refreshPreview);
-          document.getElementById(id).addEventListener("change", refreshPreview);
-        });
+          const dailyNewMap = {};
+          const dailyActiveMap = {};
 
-        document.getElementById("presetLogo").addEventListener("click", function () {
-          document.getElementById("adMediaType").value = "image";
-          document.getElementById("adMediaUrl").value = "./assets/logo.png";
-          refreshPreview();
-        });
+          uids.forEach(function (uid) {
+            const u = allUsersMap[uid] || {};
+            const first = u.first || todayStr;
+            const last = u.last || first;
 
-        document.getElementById("presetVideo").addEventListener("click", function () {
-          document.getElementById("adMediaType").value = "video";
-          document.getElementById("adMediaUrl").value = "./assets/promo.mp4";
-          refreshPreview();
-        });
+            if (last >= todayStr) dayActive++;
+            if (first >= todayStr) dayNew++;
 
-        document.getElementById("presetText").addEventListener("click", function () {
-          document.getElementById("adMediaType").value = "none";
-          document.getElementById("adMediaUrl").value = "";
-          refreshPreview();
-        });
+            if (last >= weekCutoff) weekActive++;
+            if (first >= weekCutoff) weekNew++;
 
-        document.getElementById("copyJsonBtn").addEventListener("click", async function () {
-          const text = buildJsonString();
-          try {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-              await navigator.clipboard.writeText(text);
-            } else {
-              const ta = document.getElementById("jsonPreview");
-              ta.select();
-              document.execCommand("copy");
+            if (last >= monthCutoff) monthActive++;
+            if (first >= monthCutoff) monthNew++;
+
+            dailyNewMap[first] = (dailyNewMap[first] || 0) + 1;
+            dailyActiveMap[last] = (dailyActiveMap[last] || 0) + 1;
+          });
+
+          document.getElementById("valDay").textContent = dayActive;
+          document.getElementById("newDay").textContent = "+" + dayNew + " новых";
+          document.getElementById("valWeek").textContent = weekActive;
+          document.getElementById("newWeek").textContent = "+" + weekNew + " новых";
+          document.getElementById("valMonth").textContent = monthActive;
+          document.getElementById("newMonth").textContent = "+" + monthNew + " новых";
+          document.getElementById("valAll").textContent = uids.length;
+
+          // Построение таблицы роста за выбранный период
+          const tbody = document.getElementById("growthTbody");
+          const allDates = Array.from(new Set(
+            Object.keys(dailyNewMap).concat(Object.keys(dailyActiveMap))
+          )).sort();
+
+          const cutoff = getDateStr(currentPeriodDays - 1);
+          let runningTotal = 0;
+          const rowsHtml = [];
+
+          allDates.forEach(function (dateStr) {
+            const added = dailyNewMap[dateStr] || 0;
+            const active = dailyActiveMap[dateStr] || added;
+            runningTotal += added;
+
+            if (currentPeriodDays >= 365 || dateStr >= cutoff) {
+              rowsHtml.push(
+                "<tr>" +
+                  "<td>" + dateStr + "</td>" +
+                  "<td>" + active + "</td>" +
+                  "<td class='growth-plus'>+" + added + "</td>" +
+                  "<td><b>" + runningTotal + "</b></td>" +
+                "</tr>"
+              );
             }
-            showToast("JSON скопирован — вставь в ad.json в репозитории генератора");
-          } catch (_) {
-            showToast("Выдели код ниже и скопируй вручную");
+          });
+
+          if (rowsHtml.length === 0) {
+            tbody.innerHTML = "<tr><td colspan='4' style='color:var(--sec);'>Нет данных за выбранный срок</td></tr>";
+          } else {
+            tbody.innerHTML = rowsHtml.reverse().join("");
+          }
+        }
+
+        document.querySelectorAll(".pill").forEach(function (pill) {
+          pill.addEventListener("click", function () {
+            document.querySelectorAll(".pill").forEach(function (p) { p.classList.remove("active"); });
+            pill.classList.add("active");
+            currentPeriodDays = Number(pill.dataset.days) || 7;
+            computeAndRenderStats();
+          });
+        });
+
+        if (JSONBIN_BIN_ID && JSONBIN_BIN_ID.indexOf("ВСТАВЬ") === -1) {
+          fetch("https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID + "/latest", {
+            headers: { "X-Master-Key": JSONBIN_API_KEY }
+          })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (data) {
+              if (data && data.record && data.record.users) {
+                allUsersMap = data.record.users;
+              }
+              computeAndRenderStats();
+            })
+            .catch(function () {
+              document.getElementById("growthTbody").innerHTML =
+                "<tr><td colspan='4' style='color:var(--red);'>Ошибка загрузки статистики</td></tr>";
+            });
+        } else {
+          document.getElementById("growthTbody").innerHTML =
+            "<tr><td colspan='4' style='color:var(--sec);'>Укажи JSONBIN_BIN_ID и JSONBIN_API_KEY в коде</td></tr>";
+        }
+
+        // === ЛОГИКА ВКЛАДКИ РЕКЛАМА ===
+        let selectedMediaType = "none";
+        let pickedFile = null;
+        let currentRemoteMediaUrl = "";
+
+        const mediaPickerWrap = document.getElementById("mediaPickerWrap");
+        const mediaFileInput = document.getElementById("mediaFileInput");
+        const openExplorerBtn = document.getElementById("openExplorerBtn");
+        const selectedFileName = document.getElementById("selectedFileName");
+        const imgPreview = document.getElementById("imgPreview");
+        const vidPreview = document.getElementById("vidPreview");
+        const ghTokenInput = document.getElementById("ghTokenInput");
+        const adToast = document.getElementById("adToast");
+
+        try {
+          const savedTok = localStorage.getItem(GH_TOKEN_STORAGE);
+          if (savedTok) ghTokenInput.value = savedTok;
+        } catch (_) {}
+
+        function setMediaType(type) {
+          selectedMediaType = type;
+          document.querySelectorAll(".type-btn").forEach(function (b) {
+            b.classList.toggle("active", b.dataset.type === type);
+          });
+
+          if (type === "none") {
+            mediaPickerWrap.style.display = "none";
+            pickedFile = null;
+          } else {
+            mediaPickerWrap.style.display = "block";
+            mediaFileInput.accept = type === "image" ? "image/*" : "video/mp4,video/*";
+          }
+        }
+
+        document.querySelectorAll(".type-btn").forEach(function (btn) {
+          btn.addEventListener("click", function () {
+            setMediaType(btn.dataset.type);
+          });
+        });
+
+        openExplorerBtn.addEventListener("click", function () {
+          mediaFileInput.click();
+        });
+
+        mediaFileInput.addEventListener("change", function () {
+          const file = mediaFileInput.files && mediaFileInput.files[0];
+          if (!file) return;
+          pickedFile = file;
+          selectedFileName.textContent = "Выбран файл: " + file.name + " (" + Math.round(file.size / 1024) + " КБ)";
+
+          const objUrl = URL.createObjectURL(file);
+          if (selectedMediaType === "image") {
+            vidPreview.style.display = "none";
+            imgPreview.src = objUrl;
+            imgPreview.style.display = "inline-block";
+          } else if (selectedMediaType === "video") {
+            imgPreview.style.display = "none";
+            vidPreview.src = objUrl;
+            vidPreview.style.display = "inline-block";
+            vidPreview.play().catch(function () {});
           }
         });
 
-        document.getElementById("downloadJsonBtn").addEventListener("click", function () {
-          const blob = new Blob([buildJsonString()], { type: "application/json;charset=utf-8" });
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "ad.json";
-          a.click();
-          URL.revokeObjectURL(url);
-          showToast("Файл ad.json скачан");
-        });
-
-        const badge = document.getElementById("syncBadge");
-        const sep = TARGET_AD_JSON_URL.indexOf("?") === -1 ? "?" : "&";
-        fetch(TARGET_AD_JSON_URL + sep + "v=" + Date.now(), { cache: "no-store" })
+        // Подгрузка текущего ad.json из основного репозитория
+        const targetAdUrl = "https://" + GITHUB_OWNER + ".github.io/" + TARGET_REPO + "/ad.json?v=" + Date.now();
+        fetch(targetAdUrl, { cache: "no-store" })
           .then(function (r) { return r.ok ? r.json() : null; })
           .then(function (cfg) {
             if (!cfg) return;
-            badge.textContent = "SYNCED";
             document.getElementById("adEnabled").checked = cfg.enabled !== false;
             if (cfg.tag) document.getElementById("adTag").value = cfg.tag;
             if (cfg.title) document.getElementById("adTitle").value = cfg.title;
             if (cfg.desc) document.getElementById("adDesc").value = cfg.desc;
             if (cfg.url) document.getElementById("adUrl").value = cfg.url;
-            if (cfg.media_type) document.getElementById("adMediaType").value = cfg.media_type;
-            if (cfg.media_url) document.getElementById("adMediaUrl").value = cfg.media_url;
+            if (cfg.media_url) currentRemoteMediaUrl = cfg.media_url;
+            setMediaType(cfg.media_type || "none");
           })
-          .catch(function () {})
-          .finally(refreshPreview);
+          .catch(function () {});
+
+        document.getElementById("publishAdBtn").addEventListener("click", async function () {
+          const token = ghTokenInput.value.trim();
+          if (!token) {
+            adToast.className = "toast err";
+            adToast.textContent = "Вставь GitHub токен для сохранения изменений";
+            return;
+          }
+          try { localStorage.setItem(GH_TOKEN_STORAGE, token); } catch (_) {}
+
+          const btn = document.getElementById("publishAdBtn");
+          btn.disabled = true;
+          adToast.className = "toast";
+          adToast.textContent = "Публикация в репозиторий...";
+
+          try {
+            let finalMediaUrl = selectedMediaType === "none" ? "" : currentRemoteMediaUrl;
+
+            // Если пользователь выбрал фото или видео из проводника — загружаем в assets/
+            if (selectedMediaType !== "none" && pickedFile) {
+              const ext = (pickedFile.name.split(".").pop() || (selectedMediaType === "image" ? "png" : "mp4")).toLowerCase();
+              const repoFilePath = "assets/ad_banner_" + Date.now() + "." + ext;
+              const buf = await pickedFile.arrayBuffer();
+              const b64 = arrayBufferToBase64(buf);
+
+              adToast.textContent = "Загрузка медиафайла...";
+              await uploadFileToGitHub(token, repoFilePath, b64, "Upload ad media");
+              finalMediaUrl = "./" + repoFilePath;
+              currentRemoteMediaUrl = finalMediaUrl;
+            }
+
+            const adPayload = {
+              enabled: Boolean(document.getElementById("adEnabled").checked),
+              tag: document.getElementById("adTag").value.trim() || "Реклама",
+              title: document.getElementById("adTitle").value.trim(),
+              desc: document.getElementById("adDesc").value.trim(),
+              url: document.getElementById("adUrl").value.trim() || "https://t.me/telegram",
+              media_type: selectedMediaType,
+              media_url: finalMediaUrl
+            };
+
+            adToast.textContent = "Обновление ad.json...";
+            await uploadFileToGitHub(
+              token,
+              "ad.json",
+              utf8ToBase64(JSON.stringify(adPayload, null, 2)),
+              "Update ad.json from admin panel"
+            );
+
+            adToast.className = "toast";
+            adToast.textContent = "Готово! Баннер обновлён (появится на сайте через 1–2 мин)";
+          } catch (err) {
+            adToast.className = "toast err";
+            adToast.textContent = "Ошибка: " + err.message;
+          } finally {
+            btn.disabled = false;
+          }
+        });
       }
 
       renderLoginScreen("", false);
