@@ -1,1 +1,546 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Админ Mini App</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      --bg-deep: #070614;
+      --bg-mid: #100d2b;
+      --orb-violet: rgba(114, 86, 255, 0.36);
+      --orb-gold: rgba(255, 206, 59, 0.16);
+      --glass: rgba(255, 255, 255, 0.07);
+      --glass-strong: rgba(255, 255, 255, 0.12);
+      --recessed: rgba(6, 5, 18, 0.54);
+      --border: rgba(255, 255, 255, 0.16);
+      --gold-border: rgba(255, 210, 63, 0.48);
+      --text: #ffffff;
+      --sec: rgba(226, 224, 255, 0.68);
+      --gold: #ffd23f;
+      --gold-ink: #120f24;
+      --green: #34d399;
+      --red: #fb7185;
+    }
 
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+      margin: 0;
+      padding: 14px 14px 40px;
+      min-height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", sans-serif;
+      color: var(--text);
+      background-color: var(--bg-deep);
+      background-image:
+        radial-gradient(circle at 15% 8%, var(--orb-violet) 0%, transparent 46%),
+        radial-gradient(circle at 88% 14%, var(--orb-gold) 0%, transparent 42%),
+        linear-gradient(180deg, var(--bg-mid) 0%, var(--bg-deep) 100%);
+      background-attachment: fixed;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .title { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.02em; }
+    .sub { margin: 2px 0 0; font-size: 12px; color: var(--sec); }
+
+    .badge {
+      padding: 6px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--gold);
+      background: rgba(255, 210, 63, 0.15);
+      border: 1px solid var(--gold-border);
+      flex-shrink: 0;
+    }
+
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(22px) saturate(180%);
+      -webkit-backdrop-filter: blur(22px) saturate(180%);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 14px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 10px 24px rgba(0, 0, 0, 0.32);
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--sec);
+      margin: 0 0 8px 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .field { margin-top: 10px; }
+    .field:first-child { margin-top: 0; }
+    .field label { display: block; font-size: 12px; color: var(--sec); margin-bottom: 5px; font-weight: 600; }
+
+    .input, .select, .textarea {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: var(--recessed);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      padding: 11px 12px;
+      border-radius: 12px;
+      outline: none;
+    }
+
+    .input:focus, .select:focus, .textarea:focus {
+      border-color: var(--gold);
+    }
+
+    .textarea {
+      min-height: 135px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.45;
+      resize: vertical;
+    }
+
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--glass-strong);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+    }
+
+    .quick-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .chip {
+      appearance: none;
+      border: 1px solid var(--border);
+      background: var(--recessed);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 7px 10px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .btn-gold {
+      width: 100%;
+      appearance: none;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      background: linear-gradient(150deg, #ffe270, var(--gold));
+      color: var(--gold-ink);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      padding: 12px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .btn-gold:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    .btn-glass {
+      appearance: none;
+      border: 1px solid var(--gold-border);
+      background: var(--glass-strong);
+      color: var(--gold);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 11px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+
+    .auth-status {
+      margin-top: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      min-height: 18px;
+    }
+
+    .auth-error { color: var(--red); }
+    .auth-info { color: var(--sec); }
+
+    .toast {
+      min-height: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--green);
+      margin: 8px 4px;
+    }
+  </style>
+</head>
+<body>
+  <div id="appRoot"></div>
+
+  <script>
+    (function () {
+      // 1. Впиши сюда свой пароль
+      const PANEL_PASSWORD = "13121488";
+
+      // 2. Ссылка на ad.json в репозитории основного генератора
+      const TARGET_AD_JSON_URL = "https://ТВОЙ_ЛОГИН.github.io/РЕПОЗИТОРИЙ_ГЕНЕРАТОРА/ad.json";
+
+      const MAX_ATTEMPTS = 3;
+      const LOCK_DURATION_MS = 60 * 60 * 1000;
+
+      const tg = window.Telegram && window.Telegram.WebApp ? window.Telegram.WebApp : null;
+      if (tg) {
+        tg.ready();
+        tg.expand();
+      }
+
+      const tgUser = tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user : null;
+      const scopeId = tgUser && tgUser.id ? String(tgUser.id) : "browser";
+      const STORAGE_KEY = "tg_admin_auth_state_" + scopeId;
+
+      const root = document.getElementById("appRoot");
+      let lockTimer = null;
+
+      function readAuthState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return { failedAttempts: 0, lockedUntil: 0 };
+          const parsed = JSON.parse(raw);
+          return {
+            failedAttempts: Number(parsed.failedAttempts) || 0,
+            lockedUntil: Number(parsed.lockedUntil) || 0
+          };
+        } catch (_) {
+          return { failedAttempts: 0, lockedUntil: 0 };
+        }
+      }
+
+      function writeAuthState(state) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        } catch (_) {}
+      }
+
+      function formatRemaining(ms) {
+        const totalSec = Math.max(1, Math.ceil(ms / 1000));
+        const mins = Math.floor(totalSec / 60);
+        const secs = totalSec % 60;
+        return String(mins).padStart(2, "0") + ":" + String(secs).padStart(2, "0");
+      }
+
+      function renderLoginScreen(messageText, isError) {
+        if (lockTimer) {
+          clearInterval(lockTimer);
+          lockTimer = null;
+        }
+
+        root.innerHTML = `
+          <div class="header">
+            <div>
+              <h1 class="title">Вход в панель</h1>
+              <p class="sub">Требуется пароль доступа</p>
+            </div>
+            <div class="badge">LOCKED</div>
+          </div>
+
+          <div class="card">
+            <form id="loginForm">
+              <div class="field">
+                <label for="passInput">Пароль</label>
+                <input type="password" id="passInput" class="input" placeholder="Введите пароль" autocomplete="off" required />
+              </div>
+              <div style="margin-top: 12px;">
+                <button type="submit" class="btn-gold" id="loginBtn">Войти</button>
+              </div>
+              <div class="auth-status ${isError ? "auth-error" : "auth-info"}" id="authStatus"></div>
+            </form>
+          </div>
+        `;
+
+        const form = document.getElementById("loginForm");
+        const input = document.getElementById("passInput");
+        const btn = document.getElementById("loginBtn");
+        const statusEl = document.getElementById("authStatus");
+
+        function syncLockState() {
+          const state = readAuthState();
+          const now = Date.now();
+
+          if (state.lockedUntil > now) {
+            input.disabled = true;
+            btn.disabled = true;
+            statusEl.className = "auth-status auth-error";
+            statusEl.textContent = "Превышен лимит попыток. Вход заблокирован на " + formatRemaining(state.lockedUntil - now);
+            return true;
+          }
+
+          if (state.lockedUntil > 0 && state.lockedUntil <= now) {
+            writeAuthState({ failedAttempts: 0, lockedUntil: 0 });
+          }
+
+          input.disabled = false;
+          btn.disabled = false;
+
+          if (messageText) {
+            statusEl.className = "auth-status " + (isError ? "auth-error" : "auth-info");
+            statusEl.textContent = messageText;
+          } else {
+            const left = MAX_ATTEMPTS - readAuthState().failedAttempts;
+            statusEl.className = "auth-status auth-info";
+            statusEl.textContent = "Осталось попыток: " + left + " из " + MAX_ATTEMPTS;
+          }
+          return false;
+        }
+
+        const initiallyLocked = syncLockState();
+        if (initiallyLocked) {
+          lockTimer = setInterval(function () {
+            if (!syncLockState()) {
+              clearInterval(lockTimer);
+              lockTimer = null;
+              messageText = "";
+              syncLockState();
+            }
+          }, 1000);
+        } else {
+          setTimeout(function () { input.focus(); }, 50);
+        }
+
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          const current = readAuthState();
+          const now = Date.now();
+
+          if (current.lockedUntil > now) {
+            syncLockState();
+            return;
+          }
+
+          if (input.value === PANEL_PASSWORD) {
+            writeAuthState({ failedAttempts: 0, lockedUntil: 0 });
+            renderAdminPanel();
+            return;
+          }
+
+          const nextAttempts = current.failedAttempts + 1;
+          if (nextAttempts >= MAX_ATTEMPTS) {
+            writeAuthState({ failedAttempts: nextAttempts, lockedUntil: now + LOCK_DURATION_MS });
+            messageText = "";
+            isError = true;
+            syncLockState();
+            lockTimer = setInterval(function () {
+              if (!syncLockState()) {
+                clearInterval(lockTimer);
+                lockTimer = null;
+                messageText = "";
+                syncLockState();
+              }
+            }, 1000);
+          } else {
+            writeAuthState({ failedAttempts: nextAttempts, lockedUntil: 0 });
+            const left = MAX_ATTEMPTS - nextAttempts;
+            renderLoginScreen("Неверный пароль. Осталось попыток: " + left + " из " + MAX_ATTEMPTS, true);
+          }
+        });
+      }
+
+      function renderAdminPanel() {
+        if (lockTimer) {
+          clearInterval(lockTimer);
+          lockTimer = null;
+        }
+
+        root.innerHTML = `
+          <div class="header">
+            <div>
+              <h1 class="title">Админ Mini App</h1>
+              <p class="sub">Конструктор ad.json для генератора ников</p>
+            </div>
+            <div class="badge" id="syncBadge">OFFLINE</div>
+          </div>
+
+          <div class="card">
+            <div class="switch-row">
+              <span style="font-size:13px;font-weight:700;">Показывать баннер в генераторе</span>
+              <input type="checkbox" id="adEnabled" checked />
+            </div>
+
+            <div class="quick-row">
+              <button type="button" class="chip" id="presetLogo">Логотип ./assets/logo.png</button>
+              <button type="button" class="chip" id="presetVideo">Видео ./assets/promo.mp4</button>
+              <button type="button" class="chip" id="presetText">Только текст</button>
+            </div>
+
+            <div class="field">
+              <label for="adTag">Метка</label>
+              <input type="text" id="adTag" class="input" value="Реклама" maxlength="24" />
+            </div>
+
+            <div class="field">
+              <label for="adTitle">Заголовок</label>
+              <input type="text" id="adTitle" class="input" value="Место под рекламу или твой канал" maxlength="100" />
+            </div>
+
+            <div class="field">
+              <label for="adDesc">Описание</label>
+              <input type="text" id="adDesc" class="input" value="Нажми, чтобы открыть предложение" maxlength="200" />
+            </div>
+
+            <div class="field">
+              <label for="adUrl">Ссылка (https://t.me/... или https://...)</label>
+              <input type="text" id="adUrl" class="input" value="https://t.me/telegram" />
+            </div>
+
+            <div class="field">
+              <label for="adMediaType">Тип медиа</label>
+              <select id="adMediaType" class="select">
+                <option value="none">Без медиа (только текст)</option>
+                <option value="image">Картинка / логотип</option>
+                <option value="video">Видео (MP4)</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="adMediaUrl">Путь к файлу или прямая ссылка</label>
+              <input type="text" id="adMediaUrl" class="input" placeholder="./assets/logo.png" />
+            </div>
+
+            <div class="btn-row">
+              <button type="button" class="btn-gold" id="copyJsonBtn">Копировать JSON</button>
+              <button type="button" class="btn-glass" id="downloadJsonBtn">Скачать ad.json</button>
+            </div>
+          </div>
+
+          <div class="toast" id="toast"></div>
+
+          <div class="section-title">Готовый ad.json</div>
+          <div class="card">
+            <textarea id="jsonPreview" class="textarea" readonly></textarea>
+          </div>
+        `;
+
+        const fields = ["adEnabled", "adTag", "adTitle", "adDesc", "adUrl", "adMediaType", "adMediaUrl"];
+
+        function buildJsonString() {
+          const mediaType = document.getElementById("adMediaType").value;
+          const mediaUrl = document.getElementById("adMediaUrl").value.trim();
+          return JSON.stringify({
+            enabled: Boolean(document.getElementById("adEnabled").checked),
+            tag: document.getElementById("adTag").value.trim() || "Реклама",
+            title: document.getElementById("adTitle").value.trim(),
+            desc: document.getElementById("adDesc").value.trim(),
+            url: document.getElementById("adUrl").value.trim() || "https://t.me/telegram",
+            media_type: mediaType,
+            media_url: mediaType === "none" ? "" : mediaUrl
+          }, null, 2);
+        }
+
+        function refreshPreview() {
+          document.getElementById("jsonPreview").value = buildJsonString();
+        }
+
+        function showToast(msg) {
+          const el = document.getElementById("toast");
+          el.textContent = msg;
+          clearTimeout(showToast._t);
+          showToast._t = setTimeout(function () { el.textContent = ""; }, 2200);
+        }
+
+        fields.forEach(function (id) {
+          document.getElementById(id).addEventListener("input", refreshPreview);
+          document.getElementById(id).addEventListener("change", refreshPreview);
+        });
+
+        document.getElementById("presetLogo").addEventListener("click", function () {
+          document.getElementById("adMediaType").value = "image";
+          document.getElementById("adMediaUrl").value = "./assets/logo.png";
+          refreshPreview();
+        });
+
+        document.getElementById("presetVideo").addEventListener("click", function () {
+          document.getElementById("adMediaType").value = "video";
+          document.getElementById("adMediaUrl").value = "./assets/promo.mp4";
+          refreshPreview();
+        });
+
+        document.getElementById("presetText").addEventListener("click", function () {
+          document.getElementById("adMediaType").value = "none";
+          document.getElementById("adMediaUrl").value = "";
+          refreshPreview();
+        });
+
+        document.getElementById("copyJsonBtn").addEventListener("click", async function () {
+          const text = buildJsonString();
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              await navigator.clipboard.writeText(text);
+            } else {
+              const ta = document.getElementById("jsonPreview");
+              ta.select();
+              document.execCommand("copy");
+            }
+            showToast("JSON скопирован — вставь в ad.json в репозитории генератора");
+          } catch (_) {
+            showToast("Выдели код ниже и скопируй вручную");
+          }
+        });
+
+        document.getElementById("downloadJsonBtn").addEventListener("click", function () {
+          const blob = new Blob([buildJsonString()], { type: "application/json;charset=utf-8" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "ad.json";
+          a.click();
+          URL.revokeObjectURL(url);
+          showToast("Файл ad.json скачан");
+        });
+
+        const badge = document.getElementById("syncBadge");
+        const sep = TARGET_AD_JSON_URL.indexOf("?") === -1 ? "?" : "&";
+        fetch(TARGET_AD_JSON_URL + sep + "v=" + Date.now(), { cache: "no-store" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(function (cfg) {
+            if (!cfg) return;
+            badge.textContent = "SYNCED";
+            document.getElementById("adEnabled").checked = cfg.enabled !== false;
+            if (cfg.tag) document.getElementById("adTag").value = cfg.tag;
+            if (cfg.title) document.getElementById("adTitle").value = cfg.title;
+            if (cfg.desc) document.getElementById("adDesc").value = cfg.desc;
+            if (cfg.url) document.getElementById("adUrl").value = cfg.url;
+            if (cfg.media_type) document.getElementById("adMediaType").value = cfg.media_type;
+            if (cfg.media_url) document.getElementById("adMediaUrl").value = cfg.media_url;
+          })
+          .catch(function () {})
+          .finally(refreshPreview);
+      }
+
+      renderLoginScreen("", false);
+    })();
+  </script>
+</body>
+</html>
