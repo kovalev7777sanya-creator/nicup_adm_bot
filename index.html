@@ -752,12 +752,16 @@
           document.getElementById("valMonth").textContent = monthActive;
           document.getElementById("newMonth").textContent = "+" + monthNew + " новых";
           document.getElementById("valAll").textContent = uids.length;
-fetch("https://api.counterapi.dev/v1/nicup_app_kovalev/ad_clicks_total", { cache: "no-store" })
+fetch("https://api.jsonbin.io/v3/b/" + JSONBIN_BIN_ID + "/latest", {
+  cache: "no-store",
+  headers: { "X-Master-Key": JSONBIN_API_KEY }
+})
   .then(function (r) { return r.ok ? r.json() : null; })
-  .then(function (data) {
+  .then(function (res) {
     const el = document.getElementById("adClicksValue");
-    if (el && data && typeof data.count === "number") {
-      el.textContent = String(data.count);
+    const rec = res && res.record ? res.record : null;
+    if (el && rec && typeof rec.ad_clicks === "number") {
+      el.textContent = String(rec.ad_clicks);
     }
   })
   .catch(function () {});
