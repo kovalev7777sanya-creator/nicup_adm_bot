@@ -338,7 +338,7 @@
   <script>
     (function () {
       // === НАСТРОЙКИ ===
-      const PANEL_PASSWORD = "13121488";
+      const PANEL_PASSWORD = "1312";
 
       // Данные репозитория ОСНОВНОГО генератора (куда загружаются фото/видео и ad.json)
       const GITHUB_OWNER = "kovalev7777sanya-creator";
@@ -613,9 +613,17 @@
                   <tr><td colspan="4" style="color:var(--sec);">Загрузка статистики...</td></tr>
                 </tbody>
               </table>
-            </div>
-          </div>
+    </div>
 
+    <div class="card" style="margin-top:12px;display:flex;justify-content:space-between;align-items:center;">
+      <div>Кликов по рекламе</div>
+      <strong id="adClicksValue">0</strong>
+    </div>
+  </div>
+
+  <!-- ВКЛАДКА 2: РЕКЛАМА -->
+          </div>
+      
           <!-- ВКЛАДКА 2: РЕКЛАМА -->
           <div id="viewAd" style="display:none;">
             <div class="card">
@@ -744,7 +752,15 @@
           document.getElementById("valMonth").textContent = monthActive;
           document.getElementById("newMonth").textContent = "+" + monthNew + " новых";
           document.getElementById("valAll").textContent = uids.length;
-
+fetch("https://api.counterapi.dev/v1/nicup_app_kovalev/ad_clicks_total", { cache: "no-store" })
+  .then(function (r) { return r.ok ? r.json() : null; })
+  .then(function (data) {
+    const el = document.getElementById("adClicksValue");
+    if (el && data && typeof data.count === "number") {
+      el.textContent = String(data.count);
+    }
+  })
+  .catch(function () {});
           // Построение таблицы роста за выбранный период
           const tbody = document.getElementById("growthTbody");
           const allDates = Array.from(new Set(
